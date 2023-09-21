@@ -6,5 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
-  <body></body>
+  <body>
+    <div id="app">
+      <h1>{{ message }}</h1>
+      <h3>List of LOR characters</h3>
+      <ul>
+        <li v-for="character in characterList">{{ character.name }}</li>
+      </ul>
+
+      </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const { createApp, ref } = Vue;
+
+      createApp({
+        data: () => ({
+          message: 'Wellcome to Vue',
+          characterList: [
+            {name: 'Frodo'},
+            {name: 'Sam'},
+            {name: 'Gandalf'},
+            {name: 'Aragorn'}
+          ]
+        })
+      }).mount('#app')
+    </script>
+  </body>
 </html>

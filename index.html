@@ -11,7 +11,10 @@
       <h1>{{ message }}</h1>
       <h3>List of LOR characters</h3>
       <ul>
-        <li v-for="character in characterList">{{ character.name }}</li>
+        <li v-for="character in characterList">
+          <p>{{ character.name }}</p>
+          <button @click="favoriteToggle"> ⭐ favorite</button>
+        </li>
       </ul>
 
       </div>
@@ -24,11 +27,17 @@
         data: () => ({
           message: 'Wellcome to Vue',
           characterList: [
-            {name: 'Frodo'},
-            {name: 'Sam'},
-            {name: 'Gandalf'},
-            {name: 'Aragorn'}
-          ]
+            {name: 'Frodo', favorite: false},
+            {name: 'Sam', favorite: false},
+            {name: 'Gandalf', favorite: false},
+            {name: 'Aragorn', favorite: false}
+          ],
+          favorite: false,
+          methods: {
+            favoriteToggle(){
+              !this.favorite
+            }
+          }
         })
       }).mount('#app')
     </script>

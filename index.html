@@ -13,9 +13,26 @@
       <ul>
         <li v-for="character in characterList">
           <p>{{ character.name }}</p>
-          <button @click="favoriteToggle"> ⭐ favorite</button>
+          <button @click="addFavorite(character)"> ⭐ favorite</button>
         </li>
       </ul>
+
+      <h3>favotite Characters</h3>
+      <ul v-if="favoriteList.length > 0">
+        <li v-for="character in favoriteList">⭐{{ character.name }}</li>
+      </ul>
+      <p v-else> No favorite characters yet</p>
+
+      <pre>
+        {{newCharacter}}
+      </pre>
+
+      <h3>New character</h3>
+      <label for="new-character">new character name:  </label>
+      <input
+        type="text"
+        v-model="newCharacter.name"
+        @keyup.enter="addNewCharacter">
 
       </div>
 
@@ -27,18 +44,41 @@
         data: () => ({
           message: 'Wellcome to Vue',
           characterList: [
-            {name: 'Frodo', favorite: false},
-            {name: 'Sam', favorite: false},
-            {name: 'Gandalf', favorite: false},
-            {name: 'Aragorn', favorite: false}
+            {name: 'Frodo', race: 'Hobbit'},
+            {name: 'Sam', race: 'Hobbit'},
+            {name: 'Gandalf', race: 'Wizzard'},
+            {name: 'Aragorn', race: 'Man'},
+            {name: 'Gimly', race: 'Dwarf'},
+            {name: 'Legolas', race: 'Elf'},
+            {name: 'Merry', race: 'Hobbit'},
+            {name: 'Pippin', race: 'Hobbit'},
+
           ],
-          favorite: false,
-          methods: {
-            favoriteToggle(){
-              !this.favorite
-            }
+          newCharacter: {
+            name: ''
+          },
+          favoriteList: []
+        }),
+        computed: {
+
+        },
+        methods: {
+          addFavorite(character){
+            this.favoriteList.push(character)
+          },
+          addNewCharacter(){
+            this.characterList.push(this.newCharacter)
+            this.newCharacter = {name: ''}
           }
-        })
+        },
+        watch: {
+          favoriteList: {
+            handler(newValue, oldValue){
+              console.log(newValue)
+            },
+            deep: true
+          }
+        }
       }).mount('#app')
     </script>
   </body>

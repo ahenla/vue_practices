@@ -1,30 +1,77 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
 
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+  <h1>{{ message }}</h1>
+  <h3>List of LOR characters</h3>
+  <ul>
+    <li v-for="(character, index) in characterList" :key="`character-${index}`">
+      <p>{{ character.name }}</p>
+      <button @click="addFavorite(character)"> ⭐ favorite</button>
+    </li>
+  </ul>
+
+  <h3>favotite Characters</h3>
+  <ul v-if="favoriteList.length > 0">
+    <li v-for="(character, index) in favoriteList" :key="`number-${index}`">⭐{{ character.name }}</li>
+  </ul>
+  <p v-else> No favorite characters yet</p>
+
+  <br>
+  <h3>{{ displayFavoriteLot }}</h3>
+
+  <pre>
+        {{ newCharacter }}
+      </pre>
+
+  <h3>New character</h3>
+  <label for="new-character">new character name: </label>
+  <input type="text" v-model="newCharacter.name" @keyup.enter="addNewCharacter">
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<script>
+export default {
+  data: () => ({
+    message: 'Wellcome to Vue',
+    characterList: [
+      { name: 'Frodo', race: 'Hobbit' },
+      { name: 'Sam', race: 'Hobbit' },
+      { name: 'Gandalf', race: 'Wizzard' },
+      { name: 'Aragorn', race: 'Man' },
+      { name: 'Gimly', race: 'Dwarf' },
+      { name: 'Legolas', race: 'Elf' },
+      { name: 'Merry', race: 'Hobbit' },
+      { name: 'Pippin', race: 'Hobbit' },
+
+    ],
+    newCharacter: {
+      name: ''
+    },
+    favoriteList: []
+  }),
+  computed: {
+    displayFavoriteLot() {
+      if (this.favoriteList.length > 3) {
+        return "LOVE TO LOR ♥️"
+      } else if (this.favoriteList.length > 0) {
+        return "some favorite"
+      }
+    }
+  },
+  methods: {
+    addFavorite(character) {
+      this.favoriteList.push(character)
+    },
+    addNewCharacter() {
+      this.characterList.push(this.newCharacter)
+      this.newCharacter = { name: '' }
+    }
+  },
+  watch: {
+    favoriteList: {
+      handler(newValue, oldValue) {
+        console.log(newValue)
+      },
+      deep: true
+    }
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+</script>
